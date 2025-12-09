@@ -2,6 +2,7 @@
 
 import streamlit as st
 from utils import COR_PRINCIPAL, LOGO_PATH, NUMERO_CONTATO
+# Importa as funções das páginas (localizado na pasta pages/)
 from pages.auth import pagina_login_cadastro
 from pages.home import pagina_home
 from pages.servicos import pagina_servicos
@@ -16,6 +17,7 @@ def inicializar_estado():
     # Inicializa o DB e garante que as tabelas existam
     initialize_db()
     
+    # Inicialização das variáveis de sessão
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
         st.session_state.username = "Convidado"
@@ -72,6 +74,7 @@ def main():
         
     # 3. Gerenciamento de Autenticação e Navegação
     if not st.session_state.logged_in:
+        # Exibe Login/Cadastro e Home
         pagina_login_cadastro()
         pagina_home() 
     else:
@@ -87,6 +90,7 @@ def main():
         pages.append("Sair")
         
         # Navegação por rádio buttons
+        # Garante que a página selecionada seja válida
         st.session_state.page = st.sidebar.radio("Navegação", pages, index=pages.index(st.session_state.page) if st.session_state.page in pages else 0)
         
         st.sidebar.markdown("---")
@@ -110,7 +114,6 @@ def main():
             pagina_sair()
 
     # 4. Adicionar Contato e Link do WhatsApp (BOTTOM)
-    # Remove todos os caracteres não numéricos, exceto o '+'
     clean_number = NUMERO_CONTATO.replace('+', '').replace(' ', '').replace('-', '')
     whatsapp_url = f"https://wa.me/{clean_number}"
     
