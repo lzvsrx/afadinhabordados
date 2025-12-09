@@ -42,7 +42,7 @@ def pagina_admin_produtos():
                 image_path = save_uploaded_file(uploaded_file)
                 
                 if add_product(prod_name, prod_description, prod_price, prod_stock, image_path):
-                    st.success(f"Produto '{prod_name}' cadastrado com sucesso!")
+                    st.success(f"Produto '{prod_name}' cadastrado com sucesso! Recarregando lista...")
                     st.rerun()
                 else:
                     st.error("❌ Erro ao cadastrar o produto no banco de dados. **Verifique o terminal Streamlit** para detalhes do erro SQL.") 
