@@ -1,12 +1,3 @@
-Com certeza! Vou atualizar o arquivo style.css com o código que você forneceu, focando no visual "Fadinha" (magenta, arredondado e com fonte infantil), e garantir que ele seja totalmente funcional no Streamlit.
-
-Abaixo está o conteúdo completo e atualizado do seu novo style.css.
-
-🎨 Arquivo de Estilo (style.css) - Atualizado
-Este arquivo agora reflete as cores, as fontes e os estilos que você especificou, priorizando o visual "infantil" e vibrante para o site.
-
-CSS
-
 /* style.css */
 
 /* Definições de cores */
@@ -97,3 +88,4 @@ a button {
     border: none !important;
     font-family: 'Comic Sans MS', cursive, sans-serif !important;
 }
+
