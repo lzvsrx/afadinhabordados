@@ -9,14 +9,14 @@
 }
 
 /* Estilo global do Streamlit (principal) */
-/* Aplicamos o fundo branco e garantimos que o corpo tenha a fonte Comic Sans */
-body {
-    background-color: var(--fundo-branco);
-    color: var(--magenta-fadinha);
+/* Garantimos que o background da aplicação Streamlit (incluindo o elemento principal)
+   seja branco.
+*/
+.stApp {
+    background-color: var(--fundo-branco) !important;
 }
 
 /* Aplica o estilo infantil e cor principal a todo o texto principal */
-/* Seletores genéricos do Streamlit para aplicar a fonte e cor base */
 .stApp, .css-1d3z3vf, .st-bh, .st-bb, .st-bn, .st-ax, .st-ay, .st-bw, label, .stMarkdown {
     color: var(--magenta-fadinha) !important;
     font-family: 'Comic Sans MS', cursive, sans-serif !important;
@@ -81,11 +81,10 @@ div[data-testid="stInfo"] {
     border-right: 2px solid var(--magenta-fadinha);
 }
 
-/* Estilo do botão WhatsApp (customizado no app.py, mas garantimos a cor da variável) */
+/* Estilo do botão WhatsApp */
 a button {
     background-color: var(--whatsapp-color) !important;
     color: white !important;
     border: none !important;
     font-family: 'Comic Sans MS', cursive, sans-serif !important;
 }
-
