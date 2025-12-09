@@ -33,7 +33,6 @@ def pagina_servicos():
             key="order_product_name"
         )
         
-        # Exibe a imagem do produto selecionado
         selected_product = product_options[selected_product_name]
         if selected_product.get('image_path'):
             try:
