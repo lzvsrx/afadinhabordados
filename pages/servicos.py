@@ -33,12 +33,13 @@ def pagina_servicos():
             key="order_product_name"
         )
         
+        # Exibe a imagem do produto selecionado
         selected_product = product_options[selected_product_name]
         if selected_product.get('image_path'):
             try:
                 st.image(selected_product['image_path'], caption=selected_product_name, width=200)
             except Exception:
-                st.warning("Imagem do produto não encontrada no caminho especificado.")
+                st.warning("Imagem do produto não encontrada no caminho especificado. O arquivo pode ter sido perdido na hospedagem online.")
 
 
         col1, col2 = st.columns(2)
