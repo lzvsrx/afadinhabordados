@@ -1,3 +1,10 @@
+Com certeza! Para que a cor de fundo das abas (st.tabs) fique branca e combine com o fundo geral da aplicação, farei uma pequena adição ao seu arquivo style.css, focando no seletor que controla o painel de conteúdo das abas.
+
+Aqui está o arquivo style.css completo e atualizado para que você possa substituí-lo:
+
+🎨 Arquivo de Estilo (style.css) - Abas Brancas Adicionadas
+CSS
+
 /* style.css */
 
 /* Definições de cores */
@@ -14,6 +21,29 @@
 */
 .stApp {
     background-color: var(--fundo-branco) !important;
+}
+
+/* Novo estilo para o painel de conteúdo das abas */
+/* Isso garante que a área onde o conteúdo da aba é exibido seja branca. */
+div[data-testid="stVerticalTabs"] > div:nth-child(2) {
+    background-color: var(--fundo-branco) !important;
+    padding: 20px; /* Adiciona um pequeno respiro interno */
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* Estilo dos Títulos das Abas */
+/* Garante que o texto das abas esteja na cor magenta */
+div[data-testid="stVerticalTabs"] button {
+    color: var(--magenta-fadinha) !important;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* Estilo para a aba ativa */
+div[data-testid="stVerticalTabs"] button[aria-selected="true"] {
+    background-color: var(--fundo-claro) !important; /* Cor de destaque para a aba ativa */
+    border-bottom: 3px solid var(--magenta-fadinha) !important;
 }
 
 /* Aplica o estilo infantil e cor principal a todo o texto principal */
