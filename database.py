@@ -5,14 +5,15 @@ from typing import Optional, Dict, List
 from pathlib import Path 
 
 DATABASE_NAME = "fadinha_db.db"
-# Definindo a pasta de imagens aqui para que utils.py possa importar
 IMAGE_FOLDER = Path("product_images") 
 
+# Garante que a pasta exista (importante para Streamlit Cloud)
 IMAGE_FOLDER.mkdir(exist_ok=True)
 
 def get_db_connection():
     """Cria e retorna a conexão com o banco de dados SQLite."""
-    conn = sqlite3.connect(DATABASE_NAME)
+    # check_same_thread=False é crucial para Streamlit Cloud
+    conn = sqlite3.connect(DATABASE_NAME, check_same_thread=False) 
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -33,7 +34,7 @@ def initialize_db():
         )
     """)
     
-    # 2. Tabela de Produtos (com image_path)
+    # 2. Tabela de Produtos
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,7 +46,7 @@ def initialize_db():
         )
     """)
     
-    # 3. Tabela de Pedidos (com reference_image_path)
+    # 3. Tabela de Pedidos
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -115,10 +116,10 @@ def get_all_users_list() -> List[Dict]:
     return users_list
 
 def add_product(name: str, description: str, price: float, stock: int, image_path: str = None) -> bool:
-    """Adiciona um novo produto com o caminho da imagem, registrando erros SQL."""
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
+        # Tenta inserir
         cursor.execute(
             "INSERT INTO products (name, description, price, stock, image_path) VALUES (?, ?, ?, ?, ?)",
             (name, description, price, stock, image_path)
@@ -126,7 +127,8 @@ def add_product(name: str, description: str, price: float, stock: int, image_pat
         conn.commit()
         return True
     except sqlite3.Error as e:
-        print(f"ERRO SQL ao adicionar produto '{name}': {e}")
+        # Imprime o erro no console do Streamlit para depuração
+        print(f"ERRO SQL ao adicionar produto '{name}': {e}") 
         return False
     finally:
         conn.close()
