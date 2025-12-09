@@ -9,24 +9,26 @@
 }
 
 /* Estilo global do Streamlit (principal) */
-/* Garantimos que o background da aplicação Streamlit (incluindo o elemento principal)
-   seja branco.
-*/
 .stApp {
     background-color: var(--fundo-branco) !important;
 }
 
-/* Novo estilo para o painel de conteúdo das abas */
-/* Isso garante que a área onde o conteúdo da aba é exibido seja branca. */
+/* NOVO: Cor e Decoração dos Links <a> */
+a {
+    color: var(--magenta-fadinha) !important;
+    text-decoration: none; /* Remove sublinhado, se houver */
+    font-weight: bold;
+}
+
+/* Estilo para o painel de conteúdo das abas */
 div[data-testid="stVerticalTabs"] > div:nth-child(2) {
     background-color: var(--fundo-branco) !important;
-    padding: 20px; /* Adiciona um pequeno respiro interno */
+    padding: 20px; 
     border-radius: 8px;
     border: 1px solid #eee;
 }
 
 /* Estilo dos Títulos das Abas */
-/* Garante que o texto das abas esteja na cor magenta */
 div[data-testid="stVerticalTabs"] button {
     color: var(--magenta-fadinha) !important;
     font-weight: bold;
@@ -35,7 +37,7 @@ div[data-testid="stVerticalTabs"] button {
 
 /* Estilo para a aba ativa */
 div[data-testid="stVerticalTabs"] button[aria-selected="true"] {
-    background-color: var(--fundo-claro) !important; /* Cor de destaque para a aba ativa */
+    background-color: var(--fundo-claro) !important; 
     border-bottom: 3px solid var(--magenta-fadinha) !important;
 }
 
@@ -50,7 +52,7 @@ h1, h2, h3, .st-c1 {
     color: var(--magenta-fadinha) !important;
     font-family: 'Comic Sans MS', cursive, sans-serif !important;
     text-align: center;
-    text-shadow: 1px 1px 2px rgba(255, 0, 255, 0.4); /* Leve sombra rosa */
+    text-shadow: 1px 1px 2px rgba(255, 0, 255, 0.4); 
     padding-top: 10px;
 }
 
@@ -58,7 +60,7 @@ h1, h2, h3, .st-c1 {
 .stButton>button {
     background-color: var(--fundo-claro);
     color: var(--magenta-fadinha);
-    border-radius: 15px; /* Mais arredondado */
+    border-radius: 15px;
     border: 3px solid var(--magenta-fadinha);
     padding: 10px 24px;
     font-size: 16px;
@@ -104,11 +106,10 @@ div[data-testid="stInfo"] {
     border-right: 2px solid var(--magenta-fadinha);
 }
 
-/* Estilo do botão WhatsApp */
+/* Estilo do botão WhatsApp (Mantido em verde para identidade visual) */
 a button {
     background-color: var(--whatsapp-color) !important;
     color: white !important;
     border: none !important;
     font-family: 'Comic Sans MS', cursive, sans-serif !important;
 }
-
