@@ -2,9 +2,9 @@
 
 /* Definição da cor principal (Rosa) */
 :root {
-    --primary-color: #FFC0CB;
-    --hover-color: #A020F0; /* Roxo */
-    --whatsapp-color: #25D366;
+    --magenta-fadinha: #FF00FF; /* Rosa Forte / Magenta */
+    --fundo-branco: white;
+    --fundo-claro: #F0F8FF; /* Azul bebê/Claro para botões e caixas */
 }
 
 /* Estilo do botão primário do Streamlit */
@@ -45,3 +45,4 @@ h1, h2, h3 {
 a {
     text-decoration: none;
 }
+
