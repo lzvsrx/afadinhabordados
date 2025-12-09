@@ -2,7 +2,6 @@
 
 import streamlit as st
 from utils import COR_PRINCIPAL, LOGO_PATH, NUMERO_CONTATO
-# Importa as funções das páginas (localizado na pasta pages/)
 from pages.auth import pagina_login_cadastro
 from pages.home import pagina_home
 from pages.servicos import pagina_servicos
@@ -14,17 +13,14 @@ from database import initialize_db, get_all_users
 def inicializar_estado():
     """Inicializa as variáveis de estado de sessão e dados iniciais."""
     
-    # Inicializa o DB e garante que as tabelas existam
     initialize_db()
     
-    # Inicialização das variáveis de sessão
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
         st.session_state.username = "Convidado"
         st.session_state.user_email = ""
         st.session_state.is_admin = False 
     
-    # Recarrega a lista de usuários para checar login
     st.session_state.users = get_all_users() 
     
     if 'page' not in st.session_state:
@@ -74,7 +70,6 @@ def main():
         
     # 3. Gerenciamento de Autenticação e Navegação
     if not st.session_state.logged_in:
-        # Exibe Login/Cadastro e Home
         pagina_login_cadastro()
         pagina_home() 
     else:
@@ -82,15 +77,12 @@ def main():
         
         pages = ["Home", "Nossos Serviços"]
         
-        # Adiciona páginas de administração apenas para Admin
         if st.session_state.is_admin:
             pages.append("Gerenciar Produtos (Admin)") 
             pages.append("Administração (Usuários)") 
 
         pages.append("Sair")
         
-        # Navegação por rádio buttons
-        # Garante que a página selecionada seja válida
         st.session_state.page = st.sidebar.radio("Navegação", pages, index=pages.index(st.session_state.page) if st.session_state.page in pages else 0)
         
         st.sidebar.markdown("---")
