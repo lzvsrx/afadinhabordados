@@ -10,9 +10,16 @@ from pages.admin_produtos import pagina_admin_produtos
 from pathlib import Path
 from database import initialize_db, get_all_users
 
+def load_css(file_name):
+    """Carrega o arquivo CSS e o injeta no Streamlit."""
+    try:
+        with open(file_name) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.sidebar.error("Arquivo CSS (style.css) não encontrado. Verifique o caminho.")
+        
 def inicializar_estado():
     """Inicializa as variáveis de estado de sessão e dados iniciais."""
-    
     initialize_db()
     
     if 'logged_in' not in st.session_state:
@@ -44,31 +51,20 @@ def main():
         initial_sidebar_state="expanded"
     )
     
-    # 1. Configurar estilo (CSS)
-    st.markdown(f"""
-        <style>
-            .stButton>button {{
-                background-color: {COR_PRINCIPAL};
-                color: white;
-                border-radius: 5px;
-            }}
-            .stButton>button:hover {{
-                background-color: #A020F0; 
-                color: white;
-            }}
-        </style>
-    """, unsafe_allow_html=True)
+    # 1. Carregar CSS externo
+    load_css("style.css")
     
+    # 2. Inicializar estado
     inicializar_estado()
     
-    # 2. Exibir Logo na Sidebar
+    # 3. Exibir Logo na Sidebar
     if Path(LOGO_PATH).exists():
         st.sidebar.image(LOGO_PATH, width='stretch', output_format="PNG")
     else:
         st.sidebar.warning("Logo não encontrada! Usando título.")
         st.sidebar.header("A Fadinha Bordados")
         
-    # 3. Gerenciamento de Autenticação e Navegação
+    # 4. Gerenciamento de Autenticação e Navegação
     if not st.session_state.logged_in:
         pagina_login_cadastro()
         pagina_home() 
@@ -105,15 +101,16 @@ def main():
         elif st.session_state.page == "Sair":
             pagina_sair()
 
-    # 4. Adicionar Contato e Link do WhatsApp (BOTTOM)
+    # 5. Adicionar Contato e Link do WhatsApp (BOTTOM)
     clean_number = NUMERO_CONTATO.replace('+', '').replace(' ', '').replace('-', '')
     whatsapp_url = f"https://wa.me/{clean_number}"
     
     st.sidebar.markdown("---")
+    # Este link deve usar estilo inline para garantir que funcione corretamente
     st.sidebar.markdown(f"""
         **Fale Conosco:**
         <a href="{whatsapp_url}" target="_blank" style="text-decoration: none;">
-            <button style="background-color: #25D366; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; display: block; width: 100%;">
+            <button style="background-color: var(--whatsapp-color, #25D366); color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; display: block; width: 100%;">
                 📲 WhatsApp {NUMERO_CONTATO}
             </button>
         </a>
