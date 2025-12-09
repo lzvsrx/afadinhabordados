@@ -7,7 +7,6 @@ from pathlib import Path
 DATABASE_NAME = "fadinha_db.db"
 IMAGE_FOLDER = Path("product_images") 
 
-# Garante que a pasta exista (importante para Streamlit Cloud)
 IMAGE_FOLDER.mkdir(exist_ok=True)
 
 def get_db_connection():
@@ -72,7 +71,7 @@ def initialize_db():
     conn.commit()
     conn.close()
 
-# --- Funções de CRUD ---
+# --- Funções de CRUD (Usuários) ---
 
 def get_user(email: str) -> Optional[Dict]:
     conn = get_db_connection()
@@ -115,11 +114,21 @@ def get_all_users_list() -> List[Dict]:
     conn.close()
     return users_list
 
+# --- Funções de CRUD (Produtos) ---
+
+def get_product(product_id: int) -> Optional[Dict]:
+    """Busca um produto pelo ID."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM products WHERE id = ?", (product_id,))
+    product_data = cursor.fetchone()
+    conn.close()
+    return dict(product_data) if product_data else None
+    
 def add_product(name: str, description: str, price: float, stock: int, image_path: str = None) -> bool:
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        # Tenta inserir
         cursor.execute(
             "INSERT INTO products (name, description, price, stock, image_path) VALUES (?, ?, ?, ?, ?)",
             (name, description, price, stock, image_path)
@@ -127,8 +136,45 @@ def add_product(name: str, description: str, price: float, stock: int, image_pat
         conn.commit()
         return True
     except sqlite3.Error as e:
-        # Imprime o erro no console do Streamlit para depuração
         print(f"ERRO SQL ao adicionar produto '{name}': {e}") 
+        return False
+    finally:
+        conn.close()
+
+def update_product(product_id: int, name: str, description: str, price: float, stock: int, image_path: Optional[str] = None) -> bool:
+    """Atualiza um produto existente. O image_path é atualizado se for fornecido (não None)."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        if image_path:
+            cursor.execute(
+                "UPDATE products SET name=?, description=?, price=?, stock=?, image_path=? WHERE id=?",
+                (name, description, price, stock, image_path, product_id)
+            )
+        else:
+            # Não atualiza o campo image_path se a variável image_path for None (mantém o valor antigo)
+            cursor.execute(
+                "UPDATE products SET name=?, description=?, price=?, stock=? WHERE id=?",
+                (name, description, price, stock, product_id)
+            )
+        conn.commit()
+        return cursor.rowcount > 0 
+    except sqlite3.Error as e:
+        print(f"ERRO SQL ao atualizar produto ID {product_id}: {e}")
+        return False
+    finally:
+        conn.close()
+
+def delete_product(product_id: int) -> bool:
+    """Deleta um produto pelo ID."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM products WHERE id = ?", (product_id,))
+        conn.commit()
+        return cursor.rowcount > 0 
+    except sqlite3.Error as e:
+        print(f"ERRO SQL ao deletar produto ID {product_id}: {e}")
         return False
     finally:
         conn.close()
@@ -140,6 +186,8 @@ def get_all_products() -> List[Dict]:
     products_list = [dict(row) for row in cursor.fetchall()]
     conn.close()
     return products_list
+
+# --- Funções de CRUD (Pedidos) ---
 
 def add_order(user_email: str, product_name: str, quantity: int, details: str, reference_image_path: str = None) -> bool:
     conn = get_db_connection()
