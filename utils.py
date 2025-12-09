@@ -1,6 +1,5 @@
 # utils.py
 
-import streamlit as st
 from pathlib import Path
 # Importamos IMAGE_FOLDER, assumindo que database.py já o definiu
 from database import IMAGE_FOLDER 
@@ -10,7 +9,10 @@ LOGO_PATH = "logo.png"
 NUMERO_CONTATO = "+5535992645905"
 
 def save_uploaded_file(uploaded_file):
-    """Salva o arquivo enviado para a pasta product_images e retorna o caminho relativo."""
+    """
+    Salva o arquivo enviado para a pasta product_images. 
+    Aviso: Em ambientes de hospedagem como Streamlit Cloud, esta pasta é VOLÁTIL.
+    """
     if uploaded_file is None:
         return None
 
@@ -18,8 +20,13 @@ def save_uploaded_file(uploaded_file):
     file_path = IMAGE_FOLDER / uploaded_file.name
     
     # Escreve o arquivo no disco
-    with open(file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
+    try:
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
         
-    # Retorna o caminho relativo como string
-    return str(file_path)
+        # Retorna o caminho relativo como string
+        return str(file_path)
+    except Exception as e:
+        # Se houver erro de permissão ou escrita, retorna None
+        print(f"Erro ao salvar arquivo: {e}")
+        return None
