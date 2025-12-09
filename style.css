@@ -1,66 +1,47 @@
-/* styles/style.css */
+/* style.css */
 
-/* Definições de cores */
+/* Definição da cor principal (Rosa) */
 :root {
-    --magenta-fadinha: #FF00FF; /* Rosa Forte / Magenta */
-    --fundo-branco: white;
-    --fundo-claro: #F0F8FF; /* Azul bebê/Claro para botões e caixas */
+    --primary-color: #FFC0CB;
+    --hover-color: #A020F0; /* Roxo */
+    --whatsapp-color: #25D366;
 }
 
-/* Estilo global do Streamlit */
-body {
-    background-color: var(--fundo-branco);
-    color: var(--magenta-fadinha);
-}
-
-/* Aplica o estilo infantil e cor principal a todo o texto principal */
-.stApp, .css-1d3z3vf, .st-bh, .st-bb, .st-bn, .st-ax, .st-ay, .st-bw {
-    color: var(--magenta-fadinha) !important;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-}
-
-/* Estilo para Títulos (H1, H2, H3) */
-h1, h2, h3, .st-c1 {
-    color: var(--magenta-fadinha) !important;
-    font-family: 'Comic Sans MS', cursive, sans-serif !important;
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(255, 0, 255, 0.4); /* Leve sombra rosa */
-}
-
-/* Estiliza os botões */
+/* Estilo do botão primário do Streamlit */
 .stButton>button {
-    background-color: var(--fundo-claro);
-    color: var(--magenta-fadinha);
-    border-radius: 15px; /* Mais arredondado */
-    border: 3px solid var(--magenta-fadinha);
-    padding: 10px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.2s;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
 }
 
 .stButton>button:hover {
-    background-color: var(--magenta-fadinha);
-    color: var(--fundo-branco);
-    transform: translateY(-2px);
+    background-color: var(--hover-color);
+    color: white;
 }
 
-/* Estilo para caixas de informação e sucesso */
-.stAlert {
-    border-radius: 12px;
-    background-color: var(--fundo-claro);
-    border-left: 5px solid var(--magenta-fadinha);
-}
-
-/* Campo de input */
-.stTextInput>div>div>input, .stTextArea>div>div>textarea {
-    border: 1px solid var(--magenta-fadinha);
+/* Estilo para a caixa de sucesso/erro/info para dar mais destaque */
+div[data-testid="stSuccess"],
+div[data-testid="stError"],
+div[data-testid="stWarning"],
+div[data-testid="stInfo"] {
     border-radius: 8px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
-/* Sidebar para ter um fundo mais claro para contraste */
-.css-1d3z3vf {
-    background-color: #f7f7f7 !important; 
-    border-right: 2px solid var(--magenta-fadinha);
+/* Estilo para títulos e cabeçalhos */
+h1, h2, h3 {
+    color: var(--primary-color);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Estilo para o link do WhatsApp na Sidebar (definido em app.py) */
+/* Apenas para garantir que o estilo nativo seja suprimido se o link não for um botão Streamlit */
+a {
+    text-decoration: none;
 }
