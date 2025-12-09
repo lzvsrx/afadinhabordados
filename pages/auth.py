@@ -56,7 +56,6 @@ def pagina_login_cadastro():
         
         st.markdown("---")
         
-        # CAMPO DE SELEÇÃO PÚBLICA DE ROLE (Mantido conforme última solicitação)
         new_role = st.selectbox(
             "Selecione o Tipo de Usuário:",
             options=["client", "admin"],
@@ -66,8 +65,8 @@ def pagina_login_cadastro():
         
         if st.button("Finalizar Cadastro", key="btn_cadastro_client"):
             
-            if not all([new_name, new_email, new_password, new_cpf, new_address]):
-                st.error("Preencha todos os campos obrigatórios!")
+            if not all([new_name, new_email, new_password]):
+                st.error("Preencha nome, email e senha.")
                 return
             
             if not is_valid_email(new_email):
@@ -82,18 +81,14 @@ def pagina_login_cadastro():
                 st.error("Este email já está cadastrado. Tente fazer login.")
                 return
 
-            role = new_role 
-            msg_success = f"Cadastro realizado com sucesso como **{role.upper()}**!"
-
             user_data = {
                 "email": new_email, "name": new_name, "password": new_password,
-                "cpf": new_cpf, "address": new_address, "role": role 
+                "cpf": new_cpf, "address": new_address, "role": new_role 
             }
             
             if add_user(user_data):
                 st.session_state.users = get_all_users() 
-                st.success(msg_success)
-                st.info("Faça o login na aba ao lado.")
+                st.success(f"Cadastro realizado com sucesso como **{new_role.upper()}**! Faça o login na aba ao lado.")
             else:
                 st.error("❌ Erro interno ao salvar no banco de dados. Verifique o terminal Streamlit.")
     
